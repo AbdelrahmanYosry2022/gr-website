@@ -5,3 +5,4 @@ import './components/ScrollStoryComponent.js';
 import './components/caac.js';
 import './components/WebGLDistortionSlider.js';
 import './components/GsapComponent.js';
+import './components/LayeredScrollGallery.js';
