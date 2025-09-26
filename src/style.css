@@ -16,11 +16,3 @@ body {
   overflow: auto; /* السماح بالسحب لكي تظهر الأقسام تحت بعضها */
 }
 
-/* جعل العناصر custom elements أقسام كاملة الارتفاع ضمن التدفق الطبيعي */
-webgl-distortion-slider {
-  display: block;
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-}
-
