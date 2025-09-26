@@ -10,6 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 const template = document.createElement('template');
 template.innerHTML = `
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap');
     /*
       The following properties have been applied to :host to ensure proper encapsulation and behavior.
       Base styles from the original 'html' and 'body' have been migrated here.
@@ -85,23 +86,29 @@ template.innerHTML = `
         ((var(--fluid-min) / 16) * 1rem) - (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) + (var(--fluid-preferred) * var(--variable-unit, 100vi)),
         (var(--fluid-max) / 16) * 1rem
       );
-      font-size: var(--fluid-type);
+      font-size: 6rem;
     }
     h1 { --font-level: 8; line-height: 0.6; }
     h2 { --font-level: 4; }
 
     /* Layout */
     header {
+      width: 80vw;
+      
       min-height: 100vh;
-      display: grid;
+      display: flex;
       margin: 0 auto;
-      align-content: center;
-      max-width: calc(100% - (2 * var(--gutter)));
-      padding-left: 48px;
-      text-align: left;
+      padding: 0 0 0 40vw;
+      max-width: 80vw;
+      justify-content: center;
+      align-items: center;
+      text-align: right;
+      
     }
+    header h1 { font-family: 'Cairo', sans-serif; }
     main, section {
-      max-width: 100%;
+    max-width: 100%;
+    
     }
     section {
       min-height: 100vh;
@@ -266,34 +273,34 @@ template.innerHTML = `
 
   <div class="content-wrap">
     <header>
-      <h1 class="fluid">let's<br />scroll.</h1>
+      <h1 class="fluid">حلول صناعية متكاملة للأغذية</h1>
     </header>
     <main>
       <section>
         <div class="content">
           <div class="grid">
             <div class="layer">
-              <div><img src="https://images.unsplash.com/photo-1463100099107-aa0980c362e6?w=800&auto=format&fit=crop&q=60" alt="" /></div>
-              <div><img src="https://images.unsplash.com/photo-1556304044-0699e31c6a34?w=800&auto=format&fit=crop&q=60" alt="" /></div>
-              <div><img src="https://images.unsplash.com/photo-1590330297626-d7aff25a0431?w=800&auto=format&fit=crop&q=60" alt="" /></div>
-              <div><img src="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=800&auto=format&fit=crop&q=60" alt="" /></div>
-              <div><img src="https://images.unsplash.com/photo-1488161628813-04466f872be2?w=800&auto=format&fit=crop&q=60" alt="" /></div>
-              <div><img src="https://images.unsplash.com/photo-1565321590372-09331b9dd1eb?w=800&auto=format&fit=crop&q=60" alt="" /></div>
+              <div><img src="/public/photos/LayeredScrollGallery/Kaya/licensed-image (2).jpeg" alt="Gallery" /></div>
+              <div><img src="/public/photos/LayeredScrollGallery/Kaya/licensed-image.jpeg" alt="Gallery" /></div>
+              <div><img src="/photos/LayeredScrollGallery/Whisk_1f198bfff5c74d9a66c47306b2f78147dr.jpeg" alt="Gallery" /></div>
+              <div><img src="/photos/LayeredScrollGallery/Whisk_4f255331ef2175eb7f1470c03de3a5b1dr.jpeg" alt="Gallery" /></div>
+              <div><img src="/photos/LayeredScrollGallery/Whisk_5ff84aad3741e4b8a3c44fba9e7def41dr.jpeg" alt="Gallery" /></div>
+              <div><img src="/photos/LayeredScrollGallery/Whisk_21a48c36ab0d870acfc4c2abaac9bc1adr.jpeg" alt="Gallery" /></div>
             </div>
             <div class="layer">
-              <div><img src="https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=800&auto=format&fit=crop&q=60" alt="" /></div>
-              <div><img src="https://images.unsplash.com/photo-1637414165749-9b3cd88b8271?w=800&auto=format&fit=crop&q=60" alt="" /></div>
-              <div><img src="https://images.unsplash.com/photo-1699911251220-8e0de3b5ce88?w=800&auto=format&fit=crop&q=60" alt="" /></div>
-              <div><img src="https://images.unsplash.com/photo-1667483629944-6414ad0648c5?w=800&auto=format&fit=crop&q=60" alt="" /></div>
-              <div><img src="https://plus.unsplash.com/premium_photo-1706078438060-d76ced26d8d5?w=800&auto=format&fit=crop&q=60" alt="" /></div>
-              <div><img src="https://images.unsplash.com/photo-1525385444278-b7968e7e28dc?w=800&auto=format&fit=crop&q=60" alt="" /></div>
+              <div><img src="/public/photos/LayeredScrollGallery/Kaya/Whisk_ef02a30e32df01998ea4e2828eacac05dr.jpeg" alt="Gallery" /></div>
+              <div><img src="/public/photos/LayeredScrollGallery/Kaya/1758922450.png" alt="Gallery" /></div>
+              <div><img src="/public/photos/LayeredScrollGallery/Growth Roots/1758922232.png" alt="Gallery" /></div>
+              <div><img src="/public/photos/LayeredScrollGallery/Growth Roots/1758922389.png" alt="Gallery" /></div>
+              <div><img src="/photos/LayeredScrollGallery/Ricetto/Whisk_01a838a423a54e09821409a86a1d535bdr.jpeg" alt="Gallery" /></div>
+              <div><img src="/photos/LayeredScrollGallery/Ricetto/Whisk_abd6e13f24f0788b34848f65ec42bbf9dr.jpeg" alt="Gallery" /></div>
             </div>
             <div class="layer">
-              <div><img src="https://images.unsplash.com/reserve/LJIZlzHgQ7WPSh5KVTCB_Typewriter.jpg?w=800&auto=format&fit=crop&q=60" alt="" /></div>
-              <div><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&auto=format&fit=crop&q=60" alt="" /></div>
+              <div><img src="/photos/LayeredScrollGallery/Kaya Logo.png" alt="Gallery" /></div>
+              <div><img src="/photos/LayeredScrollGallery/Ricetto Logo.png" alt="Gallery" /></div>
             </div>
             <div class="scaler">
-              <img src="https://assets.codepen.io/605876/model-shades.jpg?format=auto&quality=100" alt="" />
+              <img src="photos/LayeredScrollGallery/GR Design.png" alt="Hero" />
             </div>
           </div>
         </div>
