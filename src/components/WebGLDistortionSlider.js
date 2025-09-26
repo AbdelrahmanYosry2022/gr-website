@@ -43,6 +43,7 @@ const fragmentShader = `
 const template = document.createElement('template');
 template.innerHTML = `
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap');
     :host {
       display: block;
       position: relative;
@@ -52,7 +53,7 @@ template.innerHTML = `
       overflow: hidden;
       -moz-osx-font-smoothing: grayscale;
       -webkit-font-smoothing: antialiased;
-      font-family: sans-serif;
+      font-family: 'Cairo', sans-serif;
     }
     
     :host(.loading)::before {
@@ -125,19 +126,7 @@ template.innerHTML = `
       padding: 0;
     }
     
-    header {
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 115px;
-      z-index: 10;
-      background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/123024/menutexture.png);
-      background-position: center top;
-      background-size: auto 200px;
-      background-repeat: repeat-x;
-    }
+    header { display: none; }
     header .inner {
       max-width: 1060px;
       margin: 0 auto;
@@ -225,20 +214,25 @@ template.innerHTML = `
     }
 
     #slider {
-      width: 100%;
-      max-width: 1200px;
-      height: 100%;
-      margin: 0 auto;
       position: relative;
+      width: 100%;
+      height: 100%;
+      margin: 0;
     }
     #slider canvas {
-      width: 150%;
-      height: 150%;
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       z-index: 2;
+    }
+    .slider-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.4); /* طبقة سوداء بشفافية 40% */
+      z-index: 3;
+      pointer-events: none;
     }
     #slider img {
       display: none; /* Hide original images */
@@ -260,9 +254,17 @@ template.innerHTML = `
 
     #slider-content {
       padding: 0 10px;
+      position: absolute;
+      top: 50%;
+      right: 0vw; /* إزاحة 20% من يمين الشاشة */
+      transform: translateY(-50%);
+      direction: rtl;
+      text-align: right;
+      width: min(40vw, 640px);
+      z-index: 5;
     }
     #slider-content h2 {
-      font-family: "acta-display", serif;
+      font-family: 'Cairo', sans-serif;
       font-weight: 400;
       font-size: 30px;
       letter-spacing: -1px;
@@ -272,21 +274,30 @@ template.innerHTML = `
     }
     @media screen and (min-width: 800px) {
       #slider-content h2 {
-        font-size: 110px;
+        font-size: 80px;
+        font-weight: 900;
         line-height: 100px;
       }
     }
-    #slider-content span {
-      display: none;
+    #slider-content span { display: none; }
+    #slider-content .subtitle {
+      font-family: 'Cairo', sans-serif;
+      font-size: 16px;
+      color: #eaeaea;
+      line-height: 1.6;
+      margin: 0 0 16px;
     }
-    #slider-content .meta {
+    #slider-content .cta {
       display: inline-block;
-      font-family: "Arial", sans-serif;
-      font-size: 11px;
-      letter-spacing: 5px;
-      color: #88888a;
-      text-transform: uppercase;
-      position: relative;
+      background: #D5FF37;
+      color: #121212;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      margin-top: 8px;
     }
     @media screen and (min-width: 800px) {
       #slider-content .meta {
@@ -304,11 +315,11 @@ template.innerHTML = `
       background-color: #393d40;
     }
     #slider-content #slide-status {
-      margin-top: 10px;
-      font-family: "acta-display", serif;
+      margin-top: 0;
+      font-family: 'Cairo', sans-serif;
       font-weight: 400;
       font-size: 18px;
-      color: white;
+      color: #d9d9d9;
     }
     @media screen and (min-width: 800px) {
       #slider-content #slide-status {
@@ -320,7 +331,8 @@ template.innerHTML = `
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      right: 30px;
+      left: 20vw; /* إزاحة 30% من يسار الشاشة */
+      right: auto;
       z-index: 6;
     }
     #pagination button {
@@ -384,27 +396,31 @@ template.innerHTML = `
 
   <main>
     <div id="slider">
+      <div class="slider-overlay"></div>
       <div class="slider-inner">
         <div id="slider-content">
-          <div class="meta">Species</div>
-          <h2 id="slide-title">Amur <br>Leopard</h2>
-          <span data-slide-title="0">Amur <br>Leopard</span>
-          <span data-slide-title="1">Asiatic <br>Lion</span>
-          <span data-slide-title="2">Siberian <br>Tiger</span>
-          <span data-slide-title="3">Brown <br>Bear</span>
-          <div class="meta">Status</div>
-          <div id="slide-status">Critically Endangered</div>
-          <span data-slide-status="0">Critically Endangered</span>
-          <span data-slide-status="1">Endangered</span>
-          <span data-slide-status="2">Endangered</span>
-          <span data-slide-status="3">Least Concern</span>
+          <h2 id="slide-title">شريكك الصناعي المتكامل</h2>
+          <span data-slide-title="0">شريكك الصناعي المتكامل</span>
+          <span data-slide-title="1">توريد المعدات وخطوط الإنتاج</span>
+          <span data-slide-title="2">تشغيل وتدريب الفرق</span>
+          <span data-slide-title="3">تطوير المنتجات والمواد الخام</span>
+          <div id="slide-status" class="subtitle">من دراسة الجدوى حتى التشغيل وتحقيق الربحية.</div>
+          <span data-slide-status="0">من دراسة الجدوى حتى التشغيل وتحقيق الربحية.</span>
+          <span data-slide-status="1">حلول Kaya Steel لمصانع بمعايير عالمية.</span>
+          <span data-slide-status="2">نرفع الكفاءة ونبني فرق قوية لتحقيق الجودة.</span>
+          <span data-slide-status="3">Ricatto لتطوير النكهات وتوريد الخامات.</span>
+          <button id="slide-cta" class="cta">اطلب استشارة</button>
+          <span data-slide-cta="0">اطلب استشارة</span>
+          <span data-slide-cta="1">اكتشف الحلول</span>
+          <span data-slide-cta="2">ابدأ الآن</span>
+          <span data-slide-cta="3">تواصل معنا</span>
         </div>
       </div>
 
-      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/123024/leopard2.jpg" alt="Amur Leopard"/>
-      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/123024/lion2.jpg" alt="Asiatic Lion"/>
-      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/123024/tiger2.jpg" alt="Siberian Tiger"/>
-      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/123024/bear2.jpg" alt="Brown Bear"/>
+      <img src="/photos/WebGLDistortionSlider/licensed-image.jpeg" alt="صورة 1"/>
+      <img src="/photos/WebGLDistortionSlider/licensed-image (1).jpeg" alt="صورة 2"/>
+      <img src="/photos/WebGLDistortionSlider/licensed-image (2).jpeg" alt="صورة 3"/>
+      <img src="/photos/WebGLDistortionSlider/unnamed (1).png" alt="صورة 4"/>
 
       <div id="pagination">
         <button class="active" data-slide="0"></button>
@@ -524,8 +540,10 @@ class WebGLDistortionSlider extends HTMLElement {
 
         const slideTitleEl = this.shadowRoot.querySelector('#slide-title');
         const slideStatusEl = this.shadowRoot.querySelector('#slide-status');
+        const slideCtaEl = this.shadowRoot.querySelector('#slide-cta');
         const nextSlideTitle = this.shadowRoot.querySelector(`[data-slide-title="${slideId}"]`).innerHTML;
         const nextSlideStatus = this.shadowRoot.querySelector(`[data-slide-status="${slideId}"]`).innerHTML;
+        const nextSlideCta = this.shadowRoot.querySelector(`[data-slide-cta="${slideId}"]`).innerHTML;
 
         gsap.fromTo(slideTitleEl, { autoAlpha: 1, y: 0 }, {
           autoAlpha: 0,
@@ -546,6 +564,17 @@ class WebGLDistortionSlider extends HTMLElement {
           onComplete: () => {
             slideStatusEl.innerHTML = nextSlideStatus;
             gsap.to(slideStatusEl, { autoAlpha: 1, y: 0, duration: 0.5, delay: 0.1 });
+          }
+        });
+
+        gsap.fromTo(slideCtaEl, { autoAlpha: 1, y: 0 }, {
+          autoAlpha: 0,
+          y: 20,
+          duration: 0.4,
+          ease: 'expo.in',
+          onComplete: () => {
+            slideCtaEl.textContent = nextSlideCta;
+            gsap.to(slideCtaEl, { autoAlpha: 1, y: 0, duration: 0.4, delay: 0.05 });
           }
         });
       });
