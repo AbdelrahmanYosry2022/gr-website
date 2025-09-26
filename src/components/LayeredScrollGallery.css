@@ -1,0 +1,277 @@
+ @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap'); /* استيراد خط Cairo — خيار: تحميل محلي أو استخدام متغيرات خط */
+    /*
+      The following properties have been applied to :host to ensure proper encapsulation and behavior.
+      Base styles from the original 'html' and 'body' have been migrated here.
+    */
+    :host {
+      display: block;
+      position: relative;
+      isolation: isolate;
+      contain: layout paint;
+      
+      /* Migrated from 'html' and 'body' */
+      color-scheme: dark only;
+      background: #000;
+
+      
+      /* Root variables for calculations */
+      --container-width: 1600px; /* عرض الحاوية القصوى للجريد */
+      --gap: clamp(10px, 7.35vw, 80px); /* المسافات بين الكروت (مرنة حسب العرض) */
+      --gutter: 2rem; /* هوامش داخلية عامة للمشهد */
+      --font-size-min: 16; /* أقل حجم أساس للخطوط المرنة */
+      --font-size-max: 20; /* أكبر حجم أساس للخطوط المرنة */
+      --font-ratio-min: 1.2; /* نسبة نمو الخط بين المستويات (حد أدنى) */
+      --font-ratio-max: 1.33; /* نسبة نمو الخط بين المستويات (حد أقصى) */
+      --font-width-min: 375; /* عرض شاشة مرجعي أدنى للحسابات */
+      --font-width-max: 1500; /* عرض شاشة مرجعي أقصى للحسابات */
+      --power-1-out: linear(0 0%, 0.0027 3.64%, 0.0106 7.29%, 0.0425 14.58%, 0.0957 21.87%, 0.1701 29.16%, 0.2477 35.19%, 0.3401 41.23%, 0.5982 55.18%, 0.7044 61.56%, 0.7987 68.28%, 0.875 75%, 0.9297 81.25%, 0.9687 87.5%, 0.9922 93.75%, 1 100%); /* منحنى تخفيف للحركة */
+      --power-2-out: linear(0 0%, 0.0036 9.62%, 0.0185 16.66%, 0.0489 23.03%, 0.0962 28.86%, 0.1705 34.93%, 0.269 40.66%, 0.3867 45.89%, 0.5833 52.95%, 0.683 57.05%, 0.7829 62.14%, 0.8621 67.46%, 0.8991 70.68%, 0.9299 74.03%, 0.9545 77.52%, 0.9735 81.21%, 0.9865 85%, 0.9949 89.15%, 1 100%); /* منحنى تخفيف للحركة */
+      --power-3-out: linear(0 0%, 0.0029 13.8%, 0.0184 21.9%, 0.0339 25.51%, 0.0551 28.81%, 0.0827 31.88%, 0.1168 34.76%, 0.1962 39.57%, 0.3005 44.02%, 0.4084 47.53%, 0.6242 53.45%, 0.7493 57.93%, 0.8495 62.97%, 0.8888 65.67%, 0.9213 68.51%, 0.9629 73.9%, 0.9876 80.16%, 0.998 87.5%, 1 100%); /* منحنى تخفيف للحركة */
+      --power-4-out: linear(0 0%, 0.0012 14.95%, 0.0089 22.36%, 0.0297 28.43%, 0.0668 33.43%, 0.0979 36.08%, 0.1363 38.55%, 0.2373 43.07%, 0.3675 47.01%, 0.5984 52.15%, 0.7121 55.23%, 0.8192 59.21%, 0.898 63.62%, 0.9297 66.23%, 0.9546 69.06%, 0.9733 72.17%, 0.9864 75.67%, 0.9982 83.73%, 1 100%); /* منحنى تخفيف للحركة */
+      --sine: linear(0 0%, 0.2861 18.47%, 0.4829 32.08%, 0.6437 44.52%, 0.7712 56.07%, 0.8722 67.47%, 0.9115 73.02%, 0.9434 78.49%, 0.9682 83.91%, 0.9859 89.3%, 0.9965 94.66%, 1 100%); /* منحنى Sine للحركة */
+    }
+
+    @media (max-width: 600px) { /* إعدادات للجوال */
+      :host {
+        --gutter: 1rem; /* خيار: تقليل الهوامش على الشاشات الصغيرة */
+      }
+    }
+
+    *, *::after, *::before { /* إعادة ضبط صندوق القياس لكل العناصر */
+      box-sizing: border-box; /* خيار: content-box (غير مفضل للتصميمات الحديثة) */
+    }
+
+    .content-wrap { /* طبقة المحتوى بخلفية داكنة */
+      overflow: clip;
+      background: #000;
+      color: #fff;
+      z-index: 2;
+    }
+
+    .content-wrap::before { /* زخرفة شبكية خفيفة فوق الخلفية */
+      --size: 45px;
+      --line: color-mix(in lch, canvasText, transparent 70%);
+      content: '';
+      height: 100vh;
+      width: 100vw;
+      position: fixed;
+      background: 
+        linear-gradient(90deg, var(--line) 1px, transparent 1px var(--size)) 50% 50% / var(--size) var(--size),
+        linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% / var(--size) var(--size);
+      mask: linear-gradient(-20deg, transparent 50%, white);
+      top: 0;
+      transform-style: flat;
+      pointer-events: none;
+    }
+
+    /* Typography */
+    .fluid { /* نظام تيبوغرافي مرن — خيار: استبداله بـ clamp ثابت */
+      --fluid-min: calc(var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0)));
+      --fluid-max: calc(var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0)));
+      --fluid-preferred: calc((var(--fluid-max) - var(--fluid-min)) / (var(--font-width-max) - var(--font-width-min)));
+      --fluid-type: clamp(
+        (var(--fluid-min) / 16) * 1rem,
+        ((var(--fluid-min) / 16) * 1rem) - (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) + (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+        (var(--fluid-max) / 16) * 1rem
+      );
+      font-size: 6rem;
+    }
+    h1 { --font-level: 8; line-height: 0.6; } /* خيار: ضبط الخط والـ line-height حسب الهوية */
+    h2 { --font-level: 4; } /* خيار: مستويات أقل للعناوين الفرعية */
+
+    /* Layout */
+    header { /* رأس القسم: عنوان + عنوان فرعي */
+      width: 80vw;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column; /* stack title and subtitle vertically */
+      justify-content: center;
+      align-items: flex-end; /* keep right alignment */
+      gap: 0.5rem;
+      margin: 0 auto;
+      padding: 0 0 0 40vw;
+      max-width: 80vw;
+      text-align: right;
+    }
+    header h1 { 
+      font-family: 'Cairo', sans-serif; /* خيار: وزن الخط 700/800 */
+      line-height: 1.25; /* خيار: 1.1 — 1.4 حسب كثافة العنوان */
+      margin: 0 0 0.5rem; /* مسافة تحت العنوان */
+    }
+
+     header .subheadline { /* العنوان الفرعي — خيارات: حجم، لون، عرض أقصى */
+      font-family: 'Cairo', sans-serif;
+      font-size: clamp(1rem, 2.2vw, 1.5rem);
+      line-height: 1.9;
+      color: #e5e5e5;
+      max-width: 38ch;
+      margin: 0.5rem 0 0 0; /* وضع العنوان الفرعي أسفل العنوان مباشرة */
+      text-wrap: balance;
+    }
+
+
+
+    main, section { /* حاويات المحتوى العامة */
+      max-width: 100%; /* السماح بالتمدد لعرض الشاشة بالكامل */
+    }
+    section { /* كل سكشن يأخذ ارتفاع ملء الشاشة */
+      min-height: 100vh; /* خيار: 80vh لارتفاع أقل */
+    }
+    .content { /* حاوية ثابتة أثناء التمرير لتثبيت الجريد */
+      min-height: 100vh;
+      width: 100vw;
+      display: flex;
+      place-items: center;
+      align-content: center;
+      position: sticky;
+      top: 0;
+      overflow: hidden;
+    }
+    main section:last-of-type { /* السكشن الأخير — يستخدم كمباعد أو مساحة إنهاء */
+      display: grid; /* تمركز محتوى داخله إن وجد */
+      place-items: center; /* محاذاة أفقية ورأسية للمحتوى */
+    }
+    footer { /* أنماط فوتر توضيحية (غير مستخدمة حاليًا) */
+      padding: 4rem 2rem; /* مساحة داخلية للفوتر */
+      text-align: center; /* محاذاة محتوى الفوتر للوسط */
+      position: sticky; /* يبقى ظاهرًا قرب الأسفل عند التمرير */
+      bottom: 0; /* يتمركز أسفل الشاشة */
+      background: #000; /* لون خلفية داكن */
+      color: #fff; /* نص أبيض للتباين */
+      width: 100%; /* يمتد بعرض الشاشة */
+      z-index: -1; /* خلف الطبقات الأخرى */
+      background: radial-gradient(hsl(0 0% 0% / 0.1) 2px, #0000 0) 50% 50% / 40px 40px, #000; /* نسيج زخرفي */
+    }
+
+    /* Grid */
+    .grid { /* شبكة البطاقات الأساسية */
+      --offset: 0; /* إزاحة للتحكم بمواضع الطبقات */
+      width: var(--container-width); /* العرض المستهدف للجريد */
+      max-width: calc(100% - (2 * var(--gutter))); /* يمنع الخروج عن حدود الشاشة مع الهوامش */
+      display: grid; /* تفعيل نظام الجريد */
+      grid-template-columns: repeat(5, 1fr); /* 5 أعمدة متساوية */
+      grid-template-rows: repeat(3, auto); /* 3 صفوف تلقائية الارتفاع */
+      gap: var(--gap); /* مسافات بين العناصر */
+      margin: 0 auto; /* تمركز أفقياً */
+      align-content: center; /* محاذاة محتوى الجريد عمودياً */
+      position: absolute; /* تموضع مطلق لتمركز الجريد */
+      top: 50%; /* منتصف الشاشة عمودياً */
+      left: 50%; /* منتصف الشاشة أفقياً */
+      translate: -50% -50%; /* تمركز دقيق في الوسط */
+      
+    }
+    @media (max-width: 600px) { /* استجابة على الشاشات الصغيرة */
+      .grid {
+        grid-template-columns: repeat(3, 1fr); /* تقليل الأعمدة إلى 3 */
+        --offset: -1; /* تغيير الإزاحة لتوزيع أفضل */
+      }
+      .grid > div:nth-of-type(1) { /* إخفاء الطبقة الأولى على الجوال لتخفيف الزحام */
+        display: none;
+      }
+    }
+    .grid > .layer { /* كل طبقة تستخدم subgrid لتتبع تعريف أعمدة وصفوف الجريد الرئيسي */
+      display: grid; /* جريد داخلي للطبقة */
+      grid-column: 1 / -1; /* تمتد عبر جميع الأعمدة */
+      grid-row: 1 / -1; /* تمتد عبر جميع الصفوف */
+      grid-template-columns: subgrid; /* نفس أعمدة الجريد الرئيسي */
+      grid-template-rows: subgrid; /* نفس صفوف الجريد الرئيسي */
+    }
+    .grid > div:nth-of-type(1) div:nth-of-type(odd) { grid-column: 1; } /* بطاقات الطبقة 1 (فردية) في العمود الأول */
+    .grid > div:nth-of-type(1) div:nth-of-type(even) { grid-column: -2; } /* بطاقات الطبقة 1 (زوجية) في العمود قبل الأخير */
+    .grid > div:nth-of-type(2) div:nth-of-type(odd) { grid-column: calc(2 + var(--offset)); } /* طبقة 2 (فردية) تتحرك بإزاحة */
+    .grid > div:nth-of-type(2) div:nth-of-type(even) { grid-column: calc(-3 - var(--offset)); } /* طبقة 2 (زوجية) موضع معاكس */
+    .grid > div:nth-of-type(3) div { grid-column: calc(3 + var(--offset)); } /* طبقة 3 تقترب من الوسط */
+    .grid > div:nth-of-type(3) div:last-of-type { grid-row: -1; } /* آخر عنصر في الطبقة 3 ينزل للأسفل */
+    .grid .scaler {
+      position: relative; /* يسمح بتموضع مطلق للصورة الداخلية */
+      grid-area: 2 / calc(3 + var(--offset)); /* تحديد خلية الصورة المركزية داخل الجريد */
+    }
+    .grid img {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border-radius: 1rem;
+    }
+
+    /* Scaler */
+    .scaler { /* حاوية الصورة المركزية المتوسعة */
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    .scaler img {
+      position: absolute; /* تمركز الصورة في الوسط */
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      object-fit: cover; /* خيار: contain إن أردت إبراز الشعار بالكامل */
+      border-radius: 1rem;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Scroll Animations */
+    @keyframes fade { 0%, 55% { opacity: 0; } } /* خيار: تغيير النسبة لبداية الظهور */
+    @keyframes reveal { 0%, 30% { scale: 0; } } /* خيار: مستوى التكبير الابتدائي */
+    @keyframes scale-x { 0%, 10% { width: calc(100vw - (2 * var(--gutter))); } } /* خيار: مسار تمدد أفقي */
+    @keyframes scale-y { 0%, 10% { height: calc(100vh - (2 * var(--gutter))); } } /* خيار: مسار تمدد عمودي */
+
+    @media (prefers-reduced-motion: no-preference) { /* تعطيل التحريك للمستخدمين ذوي الحساسية للحركة */
+      :host([data-enhanced='true']) main section:first-of-type {
+        min-height: 240vh;
+      }
+
+      @supports (animation-timeline: scroll()) and (animation-range: 0 100%) {
+        :host([data-enhanced='true']) main section:first-of-type {
+          view-timeline: --runner;
+        }
+        :host([data-center='true']) .scaler img { /* تحكم بتحريك الصورة المركزية */
+          animation-name: scale-x, scale-y;
+          animation-fill-mode: both;
+          animation-timing-function: var(--power-2-out), var(--power-1-out);
+          animation-timeline: --runner, --runner;
+          animation-range: entry 100% exit -20%;
+        }
+        :host([data-layers='true']) .grid .layer { /* تحريك الطبقات بتلاشي وتكبير */
+          animation-name: fade, reveal;
+          animation-fill-mode: both;
+          animation-timeline: --runner, --runner;
+          animation-timing-function: var(--sine), var(--power-1-out);
+          animation-range: entry 100% exit 0%;
+        }
+        :host([data-stagger='range'][data-layers='true']) .grid .layer:nth-of-type(1) { animation-range: entry 100% exit 0%; } /* خيار: توقيتات متفاوتة */
+        :host([data-stagger='range'][data-layers='true']) .grid .layer:nth-of-type(2) { animation-range: entry 100% exit -10%; }
+        :host([data-stagger='range'][data-layers='true']) .grid .layer:nth-of-type(3) { animation-range: entry 100% exit -20%; }
+      }
+    }
+    
+    /* Novelty Footer Animation */
+    @property --flip { syntax: '<number>'; inherits: true; initial-value: 0; } /* خاص بتأثير الفوتر (تمت إزالته لاحقًا) */
+    @keyframes flip { to { --flip: 1; } }
+
+    @media (prefers-reduced-motion: no-preference) {
+      @supports (animation-timeline: scroll()) and (animation-range: 0 100%) {
+        :host([data-enhanced='true']) footer > span {
+          animation: flip both steps(1, end);
+          animation-timeline: scroll(root);
+        }
+        :host([data-enhanced='true']) footer .arm { opacity: var(--flip); }
+        :host([data-enhanced='true']) footer .table {
+          display: inline-block;
+          transform-origin: 0 50%;
+          rotate: calc((-180 + (var(--flip) * 180)) * 1deg);
+          translate: calc(16% + (var(--flip) * -16%)) calc(var(--flip) * -45%);
+          transform: translateY(calc(var(--flip) * 90%));
+          transition-property: translate, rotate, transform;
+          transition-duration: 0.2s, 0.24s, 0.5s;
+        }
+        :host([data-enhanced='true']) .spring span {
+          rotate: calc(-180deg + (var(--flip) * 180deg));
+          display: inline-block;
+          transform-origin: 50% 150%;
+          transition: rotate 0.24s;
+        }
+      }
+    }
+
