@@ -1,0 +1,26 @@
+/* src/style.css */
+
+/* 1. استيراد كل المكتبات والخطوط العامة هنا */
+@import 'https://unpkg.com/open-props@1.6.14/normalize.dark.min.css';
+@import 'https://unpkg.com/open-props@1.6.14';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200..900&family=Pacifico&display=swap');
+@import 'https://www.unpkg.com/layout-craft@0.1.1/dist/utilities.css';
+
+/* 2. يمكننا وضع أي أنماط عامة على مستوى الموقع هنا */
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  background-color: #1a1a1a; /* لون خلفية أساسي للصفحة */
+  overflow: auto; /* السماح بالسحب لكي تظهر الأقسام تحت بعضها */
+}
+
+/* جعل العناصر custom elements أقسام كاملة الارتفاع ضمن التدفق الطبيعي */
+webgl-distortion-slider {
+  display: block;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
