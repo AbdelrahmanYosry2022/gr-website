@@ -117,6 +117,13 @@
     section { /* كل سكشن يأخذ ارتفاع ملء الشاشة */
       min-height: 100vh; /* خيار: 80vh لارتفاع أقل */
     }
+    /* Empty/gap section used to provide scrolling space. 
+       Default height is 100vh but can be customized by setting
+       --gap-section-height on the host or the element itself. */
+    .gap-section {
+      min-height: var(--gap-section-height, 20vh);
+      width: 100%;
+    }
     .content { /* حاوية ثابتة أثناء التمرير لتثبيت الجريد */
       min-height: 100vh;
       width: 100vw;
@@ -131,27 +138,15 @@
       display: grid; /* تمركز محتوى داخله إن وجد */
       place-items: center; /* محاذاة أفقية ورأسية للمحتوى */
     }
-    footer { /* أنماط فوتر توضيحية (غير مستخدمة حاليًا) */
-      padding: 4rem 2rem; /* مساحة داخلية للفوتر */
-      text-align: center; /* محاذاة محتوى الفوتر للوسط */
-      position: sticky; /* يبقى ظاهرًا قرب الأسفل عند التمرير */
-      bottom: 0; /* يتمركز أسفل الشاشة */
-      background: #000; /* لون خلفية داكن */
-      color: #fff; /* نص أبيض للتباين */
-      width: 100%; /* يمتد بعرض الشاشة */
-      z-index: -1; /* خلف الطبقات الأخرى */
-      background: radial-gradient(hsl(0 0% 0% / 0.1) 2px, #0000 0) 50% 50% / 40px 40px, #000; /* نسيج زخرفي */
-    }
 
     /* Grid */
     .grid { /* شبكة البطاقات الأساسية */
       --offset: 0; /* إزاحة للتحكم بمواضع الطبقات */
-      width: var(--container-width); /* العرض المستهدف للجريد */
-      max-width: calc(100% - (2 * var(--gutter))); /* يمنع الخروج عن حدود الشاشة مع الهوامش */
+      width: 70%; /* العرض المستهدف للجريد */
       display: grid; /* تفعيل نظام الجريد */
       grid-template-columns: repeat(5, 1fr); /* 5 أعمدة متساوية */
       grid-template-rows: repeat(3, auto); /* 3 صفوف تلقائية الارتفاع */
-      gap: var(--gap); /* مسافات بين العناصر */
+      gap: 2rem; /* مسافات بين العناصر */
       margin: 0 auto; /* تمركز أفقياً */
       align-content: center; /* محاذاة محتوى الجريد عمودياً */
       position: absolute; /* تموضع مطلق لتمركز الجريد */
@@ -245,33 +240,3 @@
         :host([data-stagger='range'][data-layers='true']) .grid .layer:nth-of-type(3) { animation-range: entry 100% exit -20%; }
       }
     }
-    
-    /* Novelty Footer Animation */
-    @property --flip { syntax: '<number>'; inherits: true; initial-value: 0; } /* خاص بتأثير الفوتر (تمت إزالته لاحقًا) */
-    @keyframes flip { to { --flip: 1; } }
-
-    @media (prefers-reduced-motion: no-preference) {
-      @supports (animation-timeline: scroll()) and (animation-range: 0 100%) {
-        :host([data-enhanced='true']) footer > span {
-          animation: flip both steps(1, end);
-          animation-timeline: scroll(root);
-        }
-        :host([data-enhanced='true']) footer .arm { opacity: var(--flip); }
-        :host([data-enhanced='true']) footer .table {
-          display: inline-block;
-          transform-origin: 0 50%;
-          rotate: calc((-180 + (var(--flip) * 180)) * 1deg);
-          translate: calc(16% + (var(--flip) * -16%)) calc(var(--flip) * -45%);
-          transform: translateY(calc(var(--flip) * 90%));
-          transition-property: translate, rotate, transform;
-          transition-duration: 0.2s, 0.24s, 0.5s;
-        }
-        :host([data-enhanced='true']) .spring span {
-          rotate: calc(-180deg + (var(--flip) * 180deg));
-          display: inline-block;
-          transform-origin: 50% 150%;
-          transition: rotate 0.24s;
-        }
-      }
-    }
-

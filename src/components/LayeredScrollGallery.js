@@ -50,7 +50,7 @@ template.innerHTML = `
           </div>
         </div>
       </section>
-      <section> <!-- سكشن فارغ للاحتفاظ بالمساحة/السكورلينج (اختياري) --></section>
+      <section class="gap-section"> <!-- سكشن فارغ للاحتفاظ بالمساحة/السكورلينج (اختياري) --></section>
     </main>
   </div>
 `;
